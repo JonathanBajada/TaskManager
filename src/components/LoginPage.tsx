@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
 interface IFormInput {
@@ -6,8 +7,30 @@ interface IFormInput {
 }
 
 const LoginPage = () => {
-	const { register, handleSubmit } = useForm<IFormInput>();
-	const onSubmit: SubmitHandler<IFormInput> = (data) => console.log(data);
+	const [authError, setAuthError] = useState<string>('');
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm<IFormInput>();
+
+	const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+		setAuthError(''); // Clear previous errors
+
+		// Simulate authentication check
+		// Replace this with your actual authentication logic
+		const isValidCredentials =
+			data.email === 'user@example.com' && data.password === 'password123';
+
+		if (!isValidCredentials) {
+			setAuthError('Incorrect email or password. Please try again.');
+			return;
+		}
+
+		// Success - proceed with login
+		console.log('Login successful:', data);
+		// Add your navigation or success logic here
+	};
 
 	return (
 		<div className='flex flex-col h-full w-[500px] bg-red-500'>
@@ -23,6 +46,12 @@ const LoginPage = () => {
 				onSubmit={handleSubmit(onSubmit)}
 				className='flex flex-col gap-4 p-6 bg-white w-full'
 			>
+				{authError && (
+					<div className='bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md text-sm'>
+						{authError}
+					</div>
+				)}
+
 				<div className='flex flex-col gap-2'>
 					<label
 						htmlFor='email'
@@ -33,10 +62,25 @@ const LoginPage = () => {
 					<input
 						id='email'
 						type='email'
-						{...register('email', { required: true, maxLength: 20 })}
-						className='px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
+						{...register('email', {
+							required: 'Email is required',
+							pattern: {
+								value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+								message: 'Invalid email address',
+							},
+						})}
+						className={`px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+							errors.email
+								? 'border-red-300 focus:ring-red-500'
+								: 'border-gray-300'
+						}`}
 						placeholder='Enter your email'
 					/>
+					{errors.email && (
+						<span className='text-red-500 text-sm'>
+							{errors.email.message}
+						</span>
+					)}
 				</div>
 
 				<div className='flex flex-col gap-2'>
@@ -49,10 +93,25 @@ const LoginPage = () => {
 					<input
 						id='password'
 						type='password'
-						{...register('password', { pattern: /^[A-Za-z]+$/i })}
-						className='px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
+						{...register('password', {
+							required: 'Password is required',
+							minLength: {
+								value: 6,
+								message: 'Password must be at least 6 characters',
+							},
+						})}
+						className={`px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+							errors.password
+								? 'border-red-300 focus:ring-red-500'
+								: 'border-gray-300'
+						}`}
 						placeholder='Enter your password'
 					/>
+					{errors.password && (
+						<span className='text-red-500 text-sm'>
+							{errors.password.message}
+						</span>
+					)}
 				</div>
 
 				<button
