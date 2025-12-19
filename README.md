@@ -1,6 +1,6 @@
 # TaskManager
 
-A task management application to help you organize and track your tasks efficiently.
+A task management application built with React and TypeScript to help you organize and track your tasks efficiently.
 
 ## Features
 
@@ -9,6 +9,17 @@ A task management application to help you organize and track your tasks efficien
 -  Set priorities and due dates
 -  Mark tasks as complete
 -  Search and filter tasks
+
+## Tech Stack
+
+-  **React 18** - UI library
+-  **TypeScript** - Type safety
+-  **Vite** - Build tool and dev server
+
+## Prerequisites
+
+-  Node.js (version 16 or higher)
+-  npm or yarn
 
 ## Installation
 
@@ -20,22 +31,59 @@ git clone https://github.com/yourusername/TaskManager.git
 cd TaskManager
 
 # Install dependencies
-npm install  # or yarn install, pip install, etc.
+npm install
 ```
 
 ## Usage
 
+### Development
+
 ```bash
-# Start the application
-npm start  # or python app.py, etc.
+# Start the development server
+npm run dev
+```
+
+The application will be available at `http://localhost:5173`
+
+### Build
+
+```bash
+# Build for production
+npm run build
+```
+
+### Preview Production Build
+
+```bash
+# Preview the production build locally
+npm run preview
+```
+
+### Linting
+
+```bash
+# Run ESLint
+npm run lint
 ```
 
 ## Project Structure
 
 ```
 TaskManager/
-├── README.md
-└── ...
+├── public/              # Static assets
+├── src/
+│   ├── App.tsx          # Main App component
+│   ├── App.css          # App styles
+│   ├── main.tsx         # Application entry point
+│   └── index.css        # Global styles
+├── index.html           # HTML template
+├── package.json         # Dependencies and scripts
+├── tsconfig.json        # TypeScript configuration
+├── tsconfig.node.json   # TypeScript config for Node
+├── vite.config.ts       # Vite configuration
+├── .eslintrc.cjs        # ESLint configuration
+├── .gitignore           # Git ignore rules
+└── README.md            # This file
 ```
 
 ## Contributing
