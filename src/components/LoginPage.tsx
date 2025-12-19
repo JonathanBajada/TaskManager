@@ -1,21 +1,13 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 
-type Inputs = {
+interface IFormInput {
 	email: string;
 	password: string;
-};
+}
 
 const LoginPage = () => {
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm<Inputs>();
-
-	const onSubmit: SubmitHandler<Inputs> = (data) => {
-		console.log(data);
-		// Handle login logic here
-	};
+	const { register, handleSubmit } = useForm<IFormInput>();
+	const onSubmit: SubmitHandler<IFormInput> = (data) => console.log(data);
 
 	return (
 		<div className='flex flex-col h-full w-[500px] bg-red-500'>
@@ -29,7 +21,7 @@ const LoginPage = () => {
 			</div>
 			<form
 				onSubmit={handleSubmit(onSubmit)}
-				className='flex flex-col gap-4 p-6 bg-white'
+				className='flex flex-col gap-4 p-6 bg-white w-full'
 			>
 				<div className='flex flex-col gap-2'>
 					<label
@@ -41,21 +33,10 @@ const LoginPage = () => {
 					<input
 						id='email'
 						type='email'
-						{...register('email', {
-							required: 'Email is required',
-							pattern: {
-								value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-								message: 'Invalid email address',
-							},
-						})}
+						{...register('email', { required: true, maxLength: 20 })}
 						className='px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
 						placeholder='Enter your email'
 					/>
-					{errors.email && (
-						<span className='text-red-500 text-sm'>
-							{errors.email.message}
-						</span>
-					)}
 				</div>
 
 				<div className='flex flex-col gap-2'>
@@ -68,26 +49,15 @@ const LoginPage = () => {
 					<input
 						id='password'
 						type='password'
-						{...register('password', {
-							required: 'Password is required',
-							minLength: {
-								value: 6,
-								message: 'Password must be at least 6 characters',
-							},
-						})}
+						{...register('password', { pattern: /^[A-Za-z]+$/i })}
 						className='px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
 						placeholder='Enter your password'
 					/>
-					{errors.password && (
-						<span className='text-red-500 text-sm'>
-							{errors.password.message}
-						</span>
-					)}
 				</div>
 
 				<button
 					type='submit'
-					className='w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors font-medium'
+					className='w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors font-medium mt-2'
 				>
 					Sign In
 				</button>
