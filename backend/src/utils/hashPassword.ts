@@ -1,19 +1,15 @@
 // TODO: Implement password hashing utility
-// Use bcrypt or similar library
+import bcrypt from 'bcrypt';
+
+const saltRounds = 10;
 
 export const hashPassword = async (password: string): Promise<string> => {
-	// TODO: Hash password using bcrypt
-	// const saltRounds = 10;
-	// return bcrypt.hash(password, saltRounds);
-	throw new Error('Not implemented');
+	return bcrypt.hash(password, saltRounds);
 };
 
 export const comparePassword = async (
 	password: string,
-	hash: string
+	hash: string,
 ): Promise<boolean> => {
-	// TODO: Compare password with hash using bcrypt
-	// return bcrypt.compare(password, hash);
-	throw new Error('Not implemented');
+	return bcrypt.compare(password, hash);
 };
-
